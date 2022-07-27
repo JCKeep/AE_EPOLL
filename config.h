@@ -21,7 +21,7 @@
 
 /*--------- 消息协议 ----------*/
 
-#define SIZE 0x08
+#define SIZE 0x08 /* 消息大小 */
 #define TRUE 0x1
 #define FALSE 0x0
 #define HEADER 0xFE /* 消息头，用于验证消息正确性 */
@@ -35,7 +35,7 @@
 #define CMD_HEADER "redis-cli -c -p 7002 set "
 #define CMD_TEMP "temp "
 #define CMD_LIGHT "light "
-#define EVENT_LIST "EVENT_LIST"
+//#define EVENT_LIST "EVENT_LIST"
 
 
 /*------ 事件分类 ------*/

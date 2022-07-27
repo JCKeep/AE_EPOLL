@@ -2,6 +2,7 @@
 
 extern char cmd[128];
 
+/* 温度，光照READ_EVENT通用文件事件处理器 */
 void readProc(ae_event_loop *eventLoop, int fd)
 {
     ae_event *e = &eventLoop->events[fd];
@@ -35,6 +36,7 @@ void readProc(ae_event_loop *eventLoop, int fd)
 
 extern ae_event_loop *eventLoop;
 
+/* SIGINT推出释放内存 */ 
 void SIGINT_handler(int SIG) 
 {
     aeFreeEventLoop(eventLoop);
