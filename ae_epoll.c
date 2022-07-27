@@ -133,3 +133,25 @@ void aeFreeEventLoop(ae_event_loop *event_loop)
     event_loop = NULL;
 }
 
+
+void aeMain(ae_event_loop *event_loop)
+{
+    while (TRUE) {
+        if (aePollEvent(event_loop) > 0) {
+            aeProcessProc(event_loop);
+        }
+    }
+}
+
+
+void aeProcessProc(ae_event_loop *event_loop)
+{
+    int max = event_loop->fired_max;
+    for (int i = 0; i < max; i++) {
+        int fd = event_loop->fired[i];
+        ae_event *e = &event_loop->events[fd];
+        if (e->mask & READ_EVENT)
+            e->readProc(event_loop, fd);
+    }
+    event_loop->fired_max = 0;
+}

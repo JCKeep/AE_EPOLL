@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul 27 20:09:31 2022
+# Make data base, printed on Wed Jul 27 20:35:48 2022
 
 # Variables
 
@@ -163,7 +163,7 @@ WSL_DISTRO_NAME = Ubuntu
 
 # Files
 
-all: test
+all: main
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
@@ -183,19 +183,18 @@ handler.c:
 #  Successfully updated.
 
 # Not a target:
-Makefile:
+main.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-27 19:20:09.465595886
+#  Last modified 2022-07-27 19:57:34.815571638
 #  File has been updated.
 #  Successfully updated.
 
-test: test.c handler.c ae_epoll.c
-#  Implicit rule search has not been done.
-#  Last modified 2022-07-27 19:57:42.605571554
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-27 20:10:28.855563279
 #  File has been updated.
 #  Successfully updated.
-#  recipe to execute (from 'Makefile', line 4):
-	gcc -g -Wall -o test test.c handler.c ae_epoll.c -lpthread
 
 # Not a target:
 ae_epoll.c:
@@ -210,20 +209,21 @@ ae_epoll.c:
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-test.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-27 19:57:34.815571638
-#  File has been updated.
-#  Successfully updated.
-
 clean:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 10):
-	rm test
+	rm main
+
+main: main.c handler.c ae_epoll.c
+#  Implicit rule search has not been done.
+#  Last modified 2022-07-27 20:10:30.915563256
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 4):
+	gcc -g -Wall -o main main.c handler.c ae_epoll.c -lpthread
 
 # files hash-table stats:
 # Load=10/1024=1%, Rehash=0, Collisions=0/28=0%
@@ -239,6 +239,6 @@ clean:
 # strcache performance: lookups = 36 / hit rate = 41%
 # hash-table stats:
 # Load=21/8192=0%, Rehash=0, Collisions=1/36=3%
-# Finished Make data base on Wed Jul 27 20:09:31 2022
+# Finished Make data base on Wed Jul 27 20:35:48 2022
 
  

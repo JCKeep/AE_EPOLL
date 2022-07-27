@@ -23,18 +23,7 @@ int main(int argc, char **argv)
     pthread_mutex_init(&lock, NULL);
     pthread_create(&pt, NULL, aeWaitEvent, eventLoop);
 
-    while (TRUE) {
-        if (aePollEvent(eventLoop) > 0) {
-            int max = eventLoop->fired_max;
-            for (int i = 0; i < max; i++) {
-                int fd = eventLoop->fired[i];
-                ae_event *e = &eventLoop->events[fd];
-                if (e->mask & READ_EVENT)
-                    e->readProc(eventLoop, fd);
-            }
-            eventLoop->fired_max = 0;
-        }
-    }
+    aeMain(eventLoop);
 
     return 0;
 }

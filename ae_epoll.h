@@ -38,7 +38,8 @@ int aePollEvent(ae_event_loop *event_loop);
 ae_event_loop* aeCreateEventLoop();
 void* aeWaitEvent(void *arg);
 void aeFreeEventLoop(ae_event_loop *event_loop);
-
+void aeMain(ae_event_loop *event_loop);
+void aeProcessProc(ae_event_loop *event_loop);
 
 
 #endif
