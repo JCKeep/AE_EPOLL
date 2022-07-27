@@ -5,7 +5,7 @@
 #include "ae_epoll.h"
 #include "handler.h"
 
-
+int loop;
 char cmd[128];
 pthread_mutex_t lock;
 ae_event_loop *eventLoop;

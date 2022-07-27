@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Jul 27 20:35:48 2022
+# Make data base, printed on Wed Jul 27 23:32:37 2022
 
 # Variables
 
@@ -51,7 +51,7 @@ XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-3f3e444c-ed20-4b88-b9ef-6c885c3f74ea.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-2dd18f39-992f-4d35-bbff-c87cf2d4006b.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -65,7 +65,7 @@ PWD = /root/C/工训/project2/AE_EPOLL
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/29219_interop
+WSL_INTEROP = /run/WSL/30073_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
@@ -77,7 +77,7 @@ LESSCLOSE = /usr/bin/lesspipe %s %s
 # environment
 LOGNAME = root
 # environment
-APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # automatic
@@ -145,7 +145,7 @@ TERM = xterm-256color
 # environment
 WSL_DISTRO_NAME = Ubuntu
 # variable set hash-table stats:
-# Load=67/1024=7%, Rehash=0, Collisions=4/92=4%
+# Load=67/1024=7%, Rehash=0, Collisions=4/95=4%
 
 # Pattern-specific Variable Values
 
@@ -153,9 +153,9 @@ WSL_DISTRO_NAME = Ubuntu
 
 # Directories
 
-# . (device 2080, inode 52643): 14 files, no impossibilities.
+# . (device 2080, inode 52643): 19 files, no impossibilities.
 
-# 14 files, no impossibilities in 1 directories.
+# 19 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -163,12 +163,41 @@ WSL_DISTRO_NAME = Ubuntu
 
 # Files
 
-all: main
+all: server client
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
-#  Successfully updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
+
+client: client.c
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := client
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := client.c
+# automatic
+# | := 
+# automatic
+# < := client.c
+# automatic
+# ^ := client.c
+# automatic
+# ? := client.c
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
+#  recipe to execute (from 'Makefile', line 7):
+	gcc -g -Wall -o cli client.c 
 
 .PHONY: clean
 #  Implicit rule search has not been done.
@@ -178,28 +207,42 @@ all: main
 # Not a target:
 handler.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-27 19:47:26.335578209
+#  Last modified 2022-07-27 22:10:30.20071235
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
-main.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-07-27 19:57:34.815571638
-#  File has been updated.
-#  Successfully updated.
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
 
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-27 20:10:28.855563279
+#  Last modified 2022-07-27 23:31:17.970659998
+#  File has been updated.
+#  Successfully updated.
+
+server: server.c handler.c ae_epoll.c
+#  Implicit rule search has not been done.
+#  Last modified 2022-07-27 23:31:25.550659917
+#  File has been updated.
+#  Successfully updated.
+#  recipe to execute (from 'Makefile', line 4):
+	gcc -g -Wall -o server server.c handler.c ae_epoll.c -lpthread
+
+# Not a target:
+client.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-27 23:31:07.020660117
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 ae_epoll.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-27 19:47:39.575578066
+#  Last modified 2022-07-27 23:24:26.090664446
 #  File has been updated.
 #  Successfully updated.
 
@@ -209,36 +252,36 @@ ae_epoll.c:
 #  Modification time never checked.
 #  File has not been updated.
 
+# Not a target:
+server.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-27 20:52:52.645535808
+#  File has been updated.
+#  Successfully updated.
+
 clean:
 #  Phony target (prerequisite of .PHONY).
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 10):
-	rm main
-
-main: main.c handler.c ae_epoll.c
-#  Implicit rule search has not been done.
-#  Last modified 2022-07-27 20:10:30.915563256
-#  File has been updated.
-#  Successfully updated.
-#  recipe to execute (from 'Makefile', line 4):
-	gcc -g -Wall -o main main.c handler.c ae_epoll.c -lpthread
+#  recipe to execute (from 'Makefile', line 13):
+	rm server cli
 
 # files hash-table stats:
-# Load=10/1024=1%, Rehash=0, Collisions=0/28=0%
+# Load=12/1024=1%, Rehash=0, Collisions=0/34=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 21 / storage = 183 B / avg = 8 B
-# current buf: size = 8162 B / used = 183 B / count = 21 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 27 / storage = 224 B / avg = 8 B
+# current buf: size = 8162 B / used = 224 B / count = 27 / avg = 8 B
+ 
 
-# strcache performance: lookups = 36 / hit rate = 41%
+# strcache performance: lookups = 46 / hit rate = 41%
 # hash-table stats:
-# Load=21/8192=0%, Rehash=0, Collisions=1/36=3%
-# Finished Make data base on Wed Jul 27 20:35:48 2022
+# Load=27/8192=0%, Rehash=0, Collisions=2/46=4%
+# Finished Make data base on Wed Jul 27 23:32:37 2022
 
  

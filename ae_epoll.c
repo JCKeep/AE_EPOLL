@@ -1,5 +1,6 @@
 #include "ae_epoll.h"
 #include "handler.h"
+#include "client.h"
 
 extern pthread_mutex_t lock;
 
@@ -147,22 +148,31 @@ ae_event_loop* aeCreateEventLoop()
     return event_loop;
 }
 
+extern int loop;
+
 /* 等待创建新的连接 */
 void* aeWaitEvent(void *arg) 
 {
     ae_event_loop *eventLoop = (ae_event_loop *)arg;
-    char filename[128];
-    int mask;
-    while (TRUE) {
-        printf("localhost:7002> ");
-        scanf("%s %d", filename, &mask);
-        int fd = openSerial(filename, B9600);
+    int mpfd = open("./mmap", O_RDWR);
+    struct stat st;
+    fstat(mpfd, &st);
+    cliport *c = (cliport *)mmap(NULL, st.st_size, PROT_WRITE | PROT_READ, MAP_SHARED, mpfd, 0);
+    memset(c, 0, sizeof(cliport));
+    while (!loop) {
+        /*printf("localhost:7002> ");
+        scanf("%s %d", filename, &mask);*/
+        system(CMD_BLOCK_WAIT_EVENT);
+        int fd = openSerial(c->filename, B9600);
         if (fd < 0) {
             printf("File not existed\n");
             continue;
         }
-        aeAddEvent(eventLoop, fd, mask);
+        aeAddEvent(eventLoop, fd, c->mask);
+        memset(c, 0, sizeof(cliport));
+        while(getchar() != 'y') ;
     }
+    return NULL;
 }
 
 /* 删除并释放ae_event_loop */

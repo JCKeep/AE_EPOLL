@@ -42,5 +42,6 @@ void SIGINT_handler(int SIG)
     aeFreeEventLoop(eventLoop);
     printf("\nBye bye!\n");
     sleep(1);
+    kill(-getpid(), SIGINT);
     _exit(0);
 }

@@ -1,10 +1,13 @@
-all: main
+all: server client
 
-main: main.c handler.c ae_epoll.c
-	gcc -g -Wall -o main main.c handler.c ae_epoll.c -lpthread
+server: server.c handler.c ae_epoll.c
+	gcc -g -Wall -o server server.c handler.c ae_epoll.c -lpthread
+
+client: client.c
+	gcc -g -Wall -o cli client.c 
 
 
 .PHONY: clean
 
 clean:
-	rm main
+	rm server cli

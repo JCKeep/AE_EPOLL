@@ -12,7 +12,9 @@
 #include <sys/stat.h>
 #include <fcntl.h> 
 #include <termios.h>
+#include <signal.h>
 #include <pthread.h>
+#include <sys/mman.h>
 #include <sys/ioctl.h>
 #include <sys/epoll.h>
 
@@ -35,6 +37,8 @@
 #define CMD_HEADER "redis-cli -c -p 7002 set "
 #define CMD_TEMP "temp "
 #define CMD_LIGHT "light "
+#define CMD_BLOCK_WAIT_EVENT "redis-cli -c -p 7002 BLPOP EVENT_LIST 60"
+#define CMD_ADD_EVENT "redis-cli -c -p 7002 LPUSH EVENT_LIST 1"
 //#define EVENT_LIST "EVENT_LIST"
 
 

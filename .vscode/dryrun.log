@@ -1,5 +1,5 @@
 make --dry-run --keep-going --print-directory
 make: Entering directory '/root/C/工训/project2/AE_EPOLL'
-make: Nothing to be done for 'all'.
+gcc -g -Wall -o cli client.c 
 make: Leaving directory '/root/C/工训/project2/AE_EPOLL'
  
