@@ -1,4 +1,11 @@
 {
     "makefile.extensionOutputFolder": "./.vscode",
-    "C_Cpp.errorSquiggles": "Disabled"
+    "C_Cpp.errorSquiggles": "Disabled",
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/root/C/工训/project2/AE_EPOLL",
+            "binaryPath": "/root/C/工训/project2/AE_EPOLL/server",
+            "binaryArgs": []
+        }
+    ]
 }

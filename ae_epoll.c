@@ -37,7 +37,7 @@ int openSerial(char *filename, unsigned long bps)
 
 
 /* 添加文件事件 */
-int aeAddEvent(ae_event_loop *event_loop, int fd, int mask)
+int aeAddEvent(ae_event_loop *event_loop, eventHandler *readProc, eventHandler *writeProc, int fd, int mask)
 {
     pthread_mutex_lock(&lock);
     int mod = (event_loop->events[fd].readProc != NULL || event_loop->events[fd].writeProc != NULL) ? EPOLL_CTL_MOD : EPOLL_CTL_ADD;
@@ -55,7 +55,7 @@ int aeAddEvent(ae_event_loop *event_loop, int fd, int mask)
     }
     if (mask & WRITE_EVENT) {
         event.events |= (EPOLLOUT | EPOLLET);
-        e->writeProc = NULL;
+        e->writeProc = writeProc;
     }
     memset(e->data, 0, SIZE);
     if (epoll_ctl(event_loop->epfd, mod, fd, &event) < 0) {
@@ -65,12 +65,13 @@ int aeAddEvent(ae_event_loop *event_loop, int fd, int mask)
     }
     event_loop->size++;
     event_loop->max_fd = (event_loop->max_fd > fd) ? event_loop->epfd : fd;
-    printf("\033[32madd event ok\033[0m\n");
+    printf("\033[32madd event(%d) ok\033[0m\n", fd);
     pthread_mutex_unlock(&lock);
     return 0;
 }
 
 
+/* 删除指定文件事件 */
 int aeDeleteEvent(ae_event_loop *event_loop, int fd)
 {
     pthread_mutex_lock(&lock);
@@ -93,7 +94,7 @@ int aeDeleteEvent(ae_event_loop *event_loop, int fd)
         return -1;
     }
     event_loop->size--;
-    printf("\033[32mdelete event ok\033[0m\n");
+    printf("\033[32mdelete event(%d) ok\033[0m\n", fd);
     pthread_mutex_unlock(&lock);
     return 0;
 }
@@ -148,32 +149,6 @@ ae_event_loop* aeCreateEventLoop()
     return event_loop;
 }
 
-extern int loop;
-
-/* 等待创建新的连接 */
-void* aeWaitEvent(void *arg) 
-{
-    ae_event_loop *eventLoop = (ae_event_loop *)arg;
-    int mpfd = open("./mmap", O_RDWR);
-    struct stat st;
-    fstat(mpfd, &st);
-    cliport *c = (cliport *)mmap(NULL, st.st_size, PROT_WRITE | PROT_READ, MAP_SHARED, mpfd, 0);
-    memset(c, 0, sizeof(cliport));
-    while (!loop) {
-        /*printf("localhost:7002> ");
-        scanf("%s %d", filename, &mask);*/
-        system(CMD_BLOCK_WAIT_EVENT);
-        int fd = openSerial(c->filename, B9600);
-        if (fd < 0) {
-            printf("File not existed\n");
-            continue;
-        }
-        aeAddEvent(eventLoop, fd, c->mask);
-        memset(c, 0, sizeof(cliport));
-        while(getchar() != 'y') ;
-    }
-    return NULL;
-}
 
 /* 删除并释放ae_event_loop */
 void aeFreeEventLoop(ae_event_loop *event_loop)
@@ -210,3 +185,34 @@ void aeProcessProc(ae_event_loop *event_loop)
     }
     event_loop->fired_max = 0;
 }
+
+/* 等待创建新的连接 */
+void* aeWaitEvent(void *arg) 
+{
+    ae_event_loop *eventLoop = (ae_event_loop *)arg;
+    struct sockaddr_in server_addr, cli_addr;
+    socklen_t cliaddr_len;
+    int size = SOCKET_SIZE;
+    char buf[size];
+    memset(buf, 0, size);
+
+    int listenfd = socket(AF_INET, SOCK_STREAM, 0);
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    server_addr.sin_port = htons(SERVER_PORT);
+
+    bind(listenfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    listen(listenfd, 16);
+    printf("\033[32mWelcom to JCKEEP HOME\n\033[0m---------------------\033[32m\nWaiting connection...\033[0m\n");
+
+    while (TRUE) {
+        cliaddr_len = sizeof(cli_addr);
+        int connectfd = accept(listenfd, (struct sockaddr *)&cli_addr, &cliaddr_len);
+
+        printf("\033[32mConnecting to port %u\033[0m\n", ntohl(cli_addr.sin_port));
+
+        aeAddEvent(eventLoop, cliReadProc, cliWriteProc, connectfd, READ_EVENT | WRITE_EVENT);
+    }
+}
+

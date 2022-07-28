@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
 #include "config.h"
 #include "ae_epoll.h"
 #include "handler.h"
 
-int loop;
+/* 全局命令缓冲区 */
 char cmd[128];
+/* 全局文件事件互斥锁，事件处理仍为单线程运行 */
 pthread_mutex_t lock;
+/* 全局文件事件控制器 */
 ae_event_loop *eventLoop;
 
 
