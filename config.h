@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h> 
+#include <sys/time.h>
 #include <termios.h>
 #include <signal.h>
 #include <pthread.h>
@@ -38,8 +39,6 @@
 #define CMD_HEADER "redis-cli -c -p 7002 set "
 #define CMD_TEMP "temp "
 #define CMD_LIGHT "light "
-#define CMD_BLOCK_WAIT_EVENT "redis-cli -c -p 7002 BLPOP NEW_EVENT 60"
-#define CMD_ADD_EVENT "redis-cli -c -p 7002 LPUSH NEW_EVENT ok"
 
 /*------ 事件分类 ------*/
 
@@ -49,7 +48,7 @@
 
 
 #define SERVER_PORT 8087
-#define SOCKET_SIZE 256
+#define SOCKET_SIZE sizeof(cliport)
 
 
 #endif

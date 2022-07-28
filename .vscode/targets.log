@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul 28 15:33:57 2022
+# Make data base, printed on Thu Jul 28 21:15:40 2022
 
 # Variables
 
@@ -15,7 +15,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # automatic
 ?F = $(notdir $?)
 # environment
-WSLENV = ELECTRON_RUN_AS_NODE/w:WT_SESSION::WT_PROFILE_ID
+WSLENV = VSCODE_WSL_EXT_LOCATION/up
 # default
 .SHELLFLAGS := -c
 # automatic
@@ -31,7 +31,7 @@ SHELL = /bin/sh
 # environment
 VSCODE_NLS_CONFIG = {"locale":"zh-cn","availableLanguages":{"*":"zh-cn"},"_languagePackId":"1d735750dbb1b9066c7513078396ba0f.zh-cn","_translationsConfigFile":"/root/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/tcf.json","_cacheRoot":"/root/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn","_resolvedLanguagePackCoreLocation":"/root/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/3b889b090b5ad5793f524b5d1d39fda662b96a2a","_corruptedFile":"/root/.vscode-server/data/clp/1d735750dbb1b9066c7513078396ba0f.zh-cn/corrupted.info","_languagePackSupport":true}
 # environment
-_ = /mnt/c/Users/jckeep/AppData/Local/Programs/Microsoft VS Code/bin/code
+_ = /root/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/node
 # makefile (from 'Makefile', line 1)
 MAKEFILE_LIST :=  Makefile
 # 'override' directive
@@ -51,7 +51,7 @@ XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-e5a0f76f-6ad2-40af-abac-33410a59ea90.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-863301db-774a-4033-b975-e2f9e92b4b9e.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -65,11 +65,9 @@ PWD = /root/C/工训/project2/AE_EPOLL
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/8_interop
+WSL_INTEROP = /run/WSL/24055_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
-# environment
-WT_SESSION = 05fe1d57-444c-4163-88d3-0ac688bdb04a
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -91,7 +89,7 @@ MAKE = $(MAKE_COMMAND)
 # default
 MAKECMDGOALS := all
 # environment
-SHLVL = 1
+SHLVL = 0
 # default
 MAKE_VERSION := 4.2.1
 # environment
@@ -99,7 +97,7 @@ USER = root
 # makefile
 .DEFAULT_GOAL := all
 # environment
-NAME = Code
+NAME = DESKTOP-QVUCHRV
 # automatic
 %D = $(patsubst %/,%,$(dir $%))
 # environment
@@ -122,8 +120,6 @@ MFLAGS = -pqrR
 +F = $(notdir $+)
 # environment
 VSCODE_HANDLES_SIGPIPE = true
-# environment
-WT_PROFILE_ID = {0caa0dad-35be-5f56-a8ff-afceeeaa6101}
 # default
 MAKEFILES := 
 # automatic
@@ -148,10 +144,8 @@ LANG = C
 TERM = xterm-256color
 # environment
 WSL_DISTRO_NAME = Ubuntu
-# environment
-MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=70/1024=7%, Rehash=0, Collisions=4/98=4%
+# Load=67/1024=7%, Rehash=0, Collisions=4/95=4%
 
 # Pattern-specific Variable Values
 
@@ -180,8 +174,28 @@ all: server client
 
 client: client.c
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := client
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := client.c
+# automatic
+# | := 
+# automatic
+# < := client.c
+# automatic
+# ^ := client.c
+# automatic
+# ? := client.c
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  recipe to execute (from 'Makefile', line 7):
 	gcc -g -Wall -o cli client.c 
 
@@ -193,7 +207,7 @@ client: client.c
 # Not a target:
 handler.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-28 12:33:09.207477275
+#  Last modified 2022-07-28 18:05:34.306855127
 #  File has been updated.
 #  Successfully updated.
 
@@ -212,41 +226,23 @@ Makefile:
 
 server: server.c handler.c ae_epoll.c
 #  Implicit rule search has not been done.
-#  Implicit/static pattern stem: ''
-#  Last modified 2022-07-28 09:27:44.037824303
+#  Last modified 2022-07-28 18:41:17.706788268
 #  File has been updated.
-#  Needs to be updated (-q is set).
-# automatic
-# @ := server
-# automatic
-# % := 
-# automatic
-# * := 
-# automatic
-# + := server.c handler.c ae_epoll.c
-# automatic
-# | := 
-# automatic
-# < := server.c
-# automatic
-# ^ := server.c handler.c ae_epoll.c
-# automatic
-# ? := server.c handler.c
-# variable set hash-table stats:
-# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 4):
 	gcc -g -Wall -o server server.c handler.c ae_epoll.c -lpthread
 
 # Not a target:
 client.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-28 18:03:16.766859417
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 ae_epoll.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-28 09:17:54.607842689
+#  Last modified 2022-07-28 18:38:36.286793303
 #  File has been updated.
 #  Successfully updated.
 
@@ -276,16 +272,16 @@ clean:
 # VPATH Search Paths
 
 # No 'vpath' search paths.
- 
 
 # No general ('VPATH' variable) search path.
 
 # strcache buffers: 1 (0) / strings = 27 / storage = 224 B / avg = 8 B
+ 
 # current buf: size = 8162 B / used = 224 B / count = 27 / avg = 8 B
 
 # strcache performance: lookups = 46 / hit rate = 41%
 # hash-table stats:
 # Load=27/8192=0%, Rehash=0, Collisions=2/46=4%
-# Finished Make data base on Thu Jul 28 15:33:57 2022
+# Finished Make data base on Thu Jul 28 21:15:40 2022
 
  

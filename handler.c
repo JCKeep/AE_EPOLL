@@ -6,7 +6,7 @@ extern char cmd[128];
 /* 串口READ_EVENT通用文件事件处理器 */
 void serialReadProc(ae_event_loop *eventLoop, int fd)
 {
-    ae_event *e = &eventLoop->events[fd];
+    ae_file_event *e = &eventLoop->events[fd];
     read(fd, e->data, SIZE);
     if (e->data[0] == HEADER && e->data[SIZE - 1] == TAILER) {
 #ifdef DEBUG
@@ -44,7 +44,7 @@ void cliReadProc(ae_event_loop *eventLoop, int connectfd)
 {
     read(connectfd, buf, SOCKET_SIZE);
     if (strcmp(buf, "DISCONNECTED") == 0) {
-        aeDeleteEvent(eventLoop, connectfd);
+        aeDeleteFileEvent(eventLoop, connectfd);
         return;
     }
     cliport *cli = (cliport *)buf;
@@ -54,7 +54,9 @@ void cliReadProc(ae_event_loop *eventLoop, int connectfd)
         write(connectfd, "ERRO", 4);
         return;
     }
-    aeAddEvent(eventLoop, serialReadProc, NULL, fd, cli->mask);
+    aeAddFileEvent(eventLoop, serialReadProc, NULL, fd, cli->mask);
+    aeAddTimeEvent(eventLoop, 2000, scheduledTest, NULL, scheduledFinalizeTest);
+    aeAddTimeEvent(eventLoop, 2000, scheduledTest, (void *)1, scheduledFinalizeTest);
     memset(buf, 0, SOCKET_SIZE);
 }
 
@@ -65,6 +67,19 @@ void cliWriteProc(ae_event_loop *eventLoop, int connectfd)
     write(connectfd, "PONG", 4);
 }
 
+
+void scheduledTest(ae_event_loop *eventLoop, long long id, void *data)
+{
+    printf("--------This is a scheduled task--------\n");
+    if (data)
+        printf("------------------data------------------\n");
+}
+
+
+void scheduledFinalizeTest(ae_event_loop *eventLoop, void *data)
+{
+    aeAddTimeEvent(eventLoop, 2000, scheduledTest, data, scheduledFinalizeTest);
+}
 
 
 extern ae_event_loop *eventLoop;

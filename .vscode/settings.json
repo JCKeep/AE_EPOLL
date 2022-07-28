@@ -7,5 +7,9 @@
             "binaryPath": "/root/C/工训/project2/AE_EPOLL/server",
             "binaryArgs": []
         }
-    ]
+    ],
+    "files.associations": {
+        "terminal.external.windowsExec": "C:\\\\Users\\\\jckeep\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps\\\\wt.exe",
+        "epoll.h": "c"
+    }
 }
