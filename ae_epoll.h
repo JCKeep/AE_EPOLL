@@ -12,16 +12,18 @@ struct ae_time_event;
 struct ae_event_loop;
 
 /* 文件事件处理器接口 */
-typedef void fileEventHandler(struct ae_event_loop *eventLoop, int fd);
+typedef void fileEventHandler(struct ae_event_loop *eventLoop, int fd, void *data);
+typedef void fileEventFinalizeHandler(struct ae_event_loop *eventLoop, void *data);
 typedef void timeEventHandler(struct ae_event_loop *eventLoop, long long id, void *data);
 typedef void timeEventFinalizeHandler(struct ae_event_loop *eventLoop, void *data);
 
 /* 文件事件 */
 typedef struct ae_file_event {
     int mask; /* 事件掩码 */
-    unsigned char data[SIZE];   /* 数据包 */
+    void *data;   /* 数据包 */
     fileEventHandler *readProc;     /* 读事件处理器 */
     fileEventHandler *writeProc;    /* 写事件处理器 */
+    fileEventFinalizeHandler *finalizeProc;
 } ae_file_event;
 
 typedef struct ae_time_event {
@@ -52,11 +54,13 @@ typedef struct ae_event_loop {
 
 
 int openSerial(char *filename, unsigned long bps);
-int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc, fileEventHandler *writeProc, int fd, int mask);
+int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc, 
+        fileEventHandler *writeProc, void *data, 
+        fileEventFinalizeHandler *finalizeProc, int fd, int mask);
 int aeDeleteFileEvent(ae_event_loop *event_loop, int fd);
 int aePollFileEvent(ae_event_loop *event_loop);
 ae_event_loop* aeCreateEventLoop();
-void* aeWaitEvent(void *arg);
+void* aeWaitConnection(void *arg);
 void aeFreeEventLoop(ae_event_loop *event_loop);
 void aeMain(ae_event_loop *event_loop);
 void aeProcessFileEvent(ae_event_loop *event_loop);

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Thu Jul 28 21:15:40 2022
+# Make data base, printed on Fri Jul 29 16:53:41 2022
 
 # Variables
 
@@ -51,7 +51,7 @@ XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-863301db-774a-4033-b975-e2f9e92b4b9e.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-81c8a304-ce5f-40b4-9d4f-61de8bcd47ee.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -65,7 +65,7 @@ PWD = /root/C/工训/project2/AE_EPOLL
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/24055_interop
+WSL_INTEROP = /run/WSL/6657_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
@@ -144,8 +144,10 @@ LANG = C
 TERM = xterm-256color
 # environment
 WSL_DISTRO_NAME = Ubuntu
+# environment
+MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=67/1024=7%, Rehash=0, Collisions=4/95=4%
+# Load=68/1024=7%, Rehash=0, Collisions=4/96=4%
 
 # Pattern-specific Variable Values
 
@@ -153,9 +155,9 @@ WSL_DISTRO_NAME = Ubuntu
 
 # Directories
 
-# . (device 2080, inode 52643): 19 files, no impossibilities.
+# . (device 2080, inode 52643): 20 files, no impossibilities.
 
-# 19 files, no impossibilities in 1 directories.
+# 20 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -197,7 +199,7 @@ client: client.c
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  recipe to execute (from 'Makefile', line 7):
-	gcc -g -Wall -o cli client.c 
+	gcc -g -Wall -o cli client.c  
 
 .PHONY: clean
 #  Implicit rule search has not been done.
@@ -207,7 +209,7 @@ client: client.c
 # Not a target:
 handler.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-28 18:05:34.306855127
+#  Last modified 2022-07-29 16:52:46.93429628
 #  File has been updated.
 #  Successfully updated.
 
@@ -220,13 +222,13 @@ handler.c:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-27 23:31:17.970659998
+#  Last modified 2022-07-29 16:53:27.594295012
 #  File has been updated.
 #  Successfully updated.
 
 server: server.c handler.c ae_epoll.c
 #  Implicit rule search has not been done.
-#  Last modified 2022-07-28 18:41:17.706788268
+#  Last modified 2022-07-29 16:52:48.374296235
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 4):
@@ -235,14 +237,14 @@ server: server.c handler.c ae_epoll.c
 # Not a target:
 client.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-28 18:03:16.766859417
+#  Last modified 2022-07-29 16:52:18.134297179
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 ae_epoll.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-28 18:38:36.286793303
+#  Last modified 2022-07-29 16:33:52.874331655
 #  File has been updated.
 #  Successfully updated.
 
@@ -255,7 +257,7 @@ ae_epoll.c:
 # Not a target:
 server.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-28 12:19:52.857502116
+#  Last modified 2022-07-29 16:46:40.104307723
 #  File has been updated.
 #  Successfully updated.
 
@@ -274,14 +276,14 @@ clean:
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
-
-# strcache buffers: 1 (0) / strings = 27 / storage = 224 B / avg = 8 B
  
-# current buf: size = 8162 B / used = 224 B / count = 27 / avg = 8 B
 
-# strcache performance: lookups = 46 / hit rate = 41%
+# strcache buffers: 1 (0) / strings = 28 / storage = 236 B / avg = 8 B
+# current buf: size = 8162 B / used = 236 B / count = 28 / avg = 8 B
+
+# strcache performance: lookups = 47 / hit rate = 40%
 # hash-table stats:
-# Load=27/8192=0%, Rehash=0, Collisions=2/46=4%
-# Finished Make data base on Thu Jul 28 21:15:40 2022
+# Load=28/8192=0%, Rehash=0, Collisions=2/47=4%
+# Finished Make data base on Fri Jul 29 16:53:41 2022
 
  

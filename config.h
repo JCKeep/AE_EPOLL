@@ -40,15 +40,21 @@
 #define CMD_TEMP "temp "
 #define CMD_LIGHT "light "
 
-/*------ 事件分类 ------*/
+/*------ 事件 ------*/
 
 #define READ_EVENT 0x1
 #define WRITE_EVENT 0x2
+#define MIN_BLOCK_TIME 50
 
-
+/*--------- Socket-- -------*/
 
 #define SERVER_PORT 8087
-#define SOCKET_SIZE sizeof(cliport)
+#define SOCKET_SIZE (sizeof(cliport) + 4)
+
+
+#define SERIAL_CLI 0x1
+#define JAVA_CLI 0x2
+
 
 
 #endif
