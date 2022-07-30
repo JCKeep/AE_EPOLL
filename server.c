@@ -7,7 +7,7 @@
 
 /* 全局命令缓冲区 */
 char cmd[128];
-/* 全局文件事件互斥锁，事件处理仍为单线程运行 */
+/* 全局文件事件互斥锁 */
 pthread_mutex_t lock;
 /* 全局文件事件控制器 */
 ae_event_loop *eventLoop;

@@ -38,16 +38,18 @@ int openSerial(char *filename, unsigned long bps)
 
 /* 添加文件事件 */
 int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc, 
-        fileEventHandler *writeProc, void *data, 
+        fileEventHandler *writeProc, void *rdata, void *wdata,
         fileEventFinalizeHandler *finalizeProc, int fd, int mask)
 {
     pthread_mutex_lock(&lock);
     int mod = (event_loop->events[fd].readProc != NULL || event_loop->events[fd].writeProc != NULL) ? EPOLL_CTL_MOD : EPOLL_CTL_ADD;
     ae_file_event *e = &event_loop->events[fd];
+    e->fd = fd;
     e->mask = 0;
-    e->data = data;
-    e->readProc = NULL;
-    e->writeProc = NULL;
+    e->rdata = rdata;
+    e->wdata = wdata;
+    e->readProc = readProc;
+    e->writeProc = writeProc;
     e->finalizeProc = finalizeProc;
     struct epoll_event event;
     event.data.u64 = 0;
@@ -55,11 +57,9 @@ int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc,
     event.data.fd = fd;
     if (mask & READ_EVENT) {
         event.events |= (EPOLLIN | EPOLLET); /* 检测输入，边缘触发 */
-        e->readProc = readProc;
     }
     if (mask & WRITE_EVENT) {
         event.events |= (EPOLLOUT | EPOLLET);
-        e->writeProc = writeProc;
     }
     if (epoll_ctl(event_loop->epfd, mod, fd, &event) < 0) {
         perror("epoll_ctl add");
@@ -68,7 +68,7 @@ int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc,
     }
     event_loop->size++;
     event_loop->max_fd = (event_loop->max_fd > fd) ? event_loop->epfd : fd;
-    printf("\033[32madd event(%d) ok\033[0m\n", fd);
+    logger_info("Add event ok", fd);
     pthread_mutex_unlock(&lock);
     return 0;
 }
@@ -87,8 +87,10 @@ int aeDeleteFileEvent(ae_event_loop *event_loop, int fd)
         event.events |= (EPOLLIN | EPOLLET);
     if (e->writeProc != NULL)
         event.events |= (EPOLLOUT | EPOLLET);
-    if (e->finalizeProc)
-        e->finalizeProc(event_loop, e->data);
+    if (e->finalizeProc) {
+        e->finalizeProc(event_loop, e->rdata);
+        e->finalizeProc(event_loop, e->wdata);
+    }
     memset(e, 0, sizeof(ae_file_event));
     if (epoll_ctl(event_loop->epfd, EPOLL_CTL_DEL, fd, &event) < 0) {
         perror("epoll_ctl del");
@@ -96,7 +98,8 @@ int aeDeleteFileEvent(ae_event_loop *event_loop, int fd)
         return -1;
     }
     event_loop->size--;
-    printf("\033[32mdelete event(%d) ok\033[0m\n", fd);
+    close(fd);
+    logger_info("Delete event ok", fd);
     pthread_mutex_unlock(&lock);
     return 0;
 }
@@ -146,8 +149,8 @@ ae_event_loop* aeCreateEventLoop()
 }
 
 
-
-void aeGetTime(long *seconds, long *milliseconds)
+/* 获取当前时间 */
+void aeGetTime(time_t *seconds, time_t *milliseconds)
 {
     struct timeval tv;
     gettimeofday(&tv, NULL);
@@ -156,10 +159,10 @@ void aeGetTime(long *seconds, long *milliseconds)
 }
 
 
-
-void aeAddMillisecondsToNow(long long milliseconds, long *sec, long *ms)
+/* 计算延迟milliseconds后的时间 */
+void aeAddMillisecondsToNow(long long milliseconds, time_t *sec, time_t *ms)
 {
-    long cur_sec, cur_ms, when_sec, when_ms;
+    time_t cur_sec, cur_ms, when_sec, when_ms;
 
     // 获取当前时间
     aeGetTime(&cur_sec, &cur_ms);
@@ -178,7 +181,7 @@ void aeAddMillisecondsToNow(long long milliseconds, long *sec, long *ms)
 }
 
 
-
+/* 添加时间事件 */
 long long aeAddTimeEvent(ae_event_loop *eventLoop, long long milliseconds,
         timeEventHandler *proc, void *data,
         timeEventFinalizeHandler *finalizerProc)
@@ -190,7 +193,7 @@ long long aeAddTimeEvent(ae_event_loop *eventLoop, long long milliseconds,
         return -1;
     }
 
-    te->id = id;
+    te->id = (id == -1) ? eventLoop->next_time_id++ : id;
     aeAddMillisecondsToNow(milliseconds, &te->when_sec, &te->when_ms);
     te->data = data;
     te->timeProc = proc;
@@ -202,7 +205,7 @@ long long aeAddTimeEvent(ae_event_loop *eventLoop, long long milliseconds,
 }
 
 
-
+/* 删除指定的事件时间 */
 int aeDeleteTimeEvent(ae_event_loop *eventLoop, long long id)
 {
     ae_time_event *te = eventLoop->time_event_head, *prev = NULL;
@@ -254,6 +257,7 @@ void aeFreeEventLoop(ae_event_loop *event_loop)
     event_loop = NULL;
 }
 
+
 /* IO多路复用器主循环 */
 void aeMain(ae_event_loop *event_loop)
 {
@@ -266,6 +270,7 @@ void aeMain(ae_event_loop *event_loop)
     }
 }
 
+
 /* 处理所有已就绪的文件事件 */
 void aeProcessFileEvent(ae_event_loop *event_loop)
 {
@@ -274,15 +279,16 @@ void aeProcessFileEvent(ae_event_loop *event_loop)
         int fd = event_loop->fired[i];
         ae_file_event *e = &event_loop->events[fd];
         if (e->mask & READ_EVENT)
-            e->readProc(event_loop, fd, e->data);
+            e->readProc(event_loop, fd, e->rdata);
         if (e->mask & WRITE_EVENT)
-            e->writeProc(event_loop, fd, e->data);
+            e->writeProc(event_loop, fd, e->wdata);
         e->mask = 0;
     }
     event_loop->fired_max = 0;
 }
 
 
+/* 处理所有已到达的时间事件 */
 void aeProcessTimeEvent(ae_event_loop *event_loop)
 {
     ae_time_event *te = event_loop->time_event_head, *prev = NULL;
@@ -341,11 +347,13 @@ void* aeWaitConnection(void *arg)
         cliaddr_len = sizeof(cli_addr);
         int connectfd = accept(listenfd, (struct sockaddr *)&cli_addr, &cliaddr_len);
 
-        printf("\033[32mConnecting to port %u\033[0m\n", ntohl(cli_addr.sin_port));
+        logger_info("Connecting to port", ntohl(cli_addr.sin_port));
 
-        char *cli_data = (char *)malloc(SOCKET_SIZE * sizeof(char));
-        memset(cli_data, 0, SOCKET_SIZE);
-        aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_data, stringFinalize, connectfd, READ_EVENT | WRITE_EVENT);
+        char *cli_rdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
+        char *cli_wdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
+        memset(cli_rdata, 0, SOCKET_SIZE);
+        memset(cli_wdata, 0, SOCKET_SIZE);
+        aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_rdata, cli_wdata, stringFinalize, connectfd, READ_EVENT);
     }
 }
 

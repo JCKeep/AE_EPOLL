@@ -4,6 +4,7 @@
 
 
 #include <stdio.h>
+#include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -21,8 +22,10 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-/* debug时使用 */
+
+/* Debug时使用 */
 #define DEBUG
+
 
 /*--------- 消息协议 ----------*/
 
@@ -34,27 +37,42 @@
 #define TEMP_MARK 0x01 /* 温度标识 */
 #define LIGHT_MARK 0x02 /* 光照标识 */
 
-/*---------- 命令 ------------*/
+
+/*---------- Command ------------*/
 
 #define CMD_HEADER "redis-cli -c -p 7002 set "
 #define CMD_TEMP "temp "
 #define CMD_LIGHT "light "
 
-/*------ 事件 ------*/
+
+/*------ Event ------*/
 
 #define READ_EVENT 0x1
 #define WRITE_EVENT 0x2
 #define MIN_BLOCK_TIME 50
 
-/*--------- Socket-- -------*/
+
+/*--------- Server-- -------*/
 
 #define SERVER_PORT 8087
 #define SOCKET_SIZE (sizeof(cliport) + 4)
 
 
-#define SERIAL_CLI 0x1
-#define JAVA_CLI 0x2
+/*--------- Client ----------*/
+
+#define ADD_SERIAL_CLI 0x1
+#define CMD_SERIAL_CLI 0x100
+#define CMD_BIT 0x2
+#define ADD_JAVA_CLI 0x2
+#define CMD_JAVA_CLI 0x200
+
+#define OP_ADD 0x1
+#define OP_SUB 0x2
 
 
+
+#define VOID2UCHAR(p) (*((u_char *)p))
+#define VOID2CHAR(p) (*((char *)p))
+#define VOID2INT(p) (*((int *)p))
 
 #endif

@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Fri Jul 29 16:53:41 2022
+# Make data base, printed on Sat Jul 30 12:34:53 2022
 
 # Variables
 
@@ -155,9 +155,9 @@ MOTD_SHOWN = update-motd
 
 # Directories
 
-# . (device 2080, inode 52643): 20 files, no impossibilities.
+# . (device 2080, inode 52643): 23 files, no impossibilities.
 
-# 20 files, no impossibilities in 1 directories.
+# 23 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -199,7 +199,7 @@ client: client.c
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  recipe to execute (from 'Makefile', line 7):
-	gcc -g -Wall -o cli client.c  
+	gcc -g -Wall -Wunused-label -o cli client.c  
 
 .PHONY: clean
 #  Implicit rule search has not been done.
@@ -209,7 +209,7 @@ client: client.c
 # Not a target:
 handler.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-29 16:52:46.93429628
+#  Last modified 2022-07-30 11:52:15.332163662
 #  File has been updated.
 #  Successfully updated.
 
@@ -222,29 +222,29 @@ handler.c:
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-29 16:53:27.594295012
+#  Last modified 2022-07-30 12:34:41.382084243
 #  File has been updated.
 #  Successfully updated.
 
-server: server.c handler.c ae_epoll.c
+server: server.c handler.c ae_epoll.c logger.c
 #  Implicit rule search has not been done.
-#  Last modified 2022-07-29 16:52:48.374296235
+#  Last modified 2022-07-30 12:34:43.512084177
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 4):
-	gcc -g -Wall -o server server.c handler.c ae_epoll.c -lpthread
+	gcc -g -Wall -Wunused-label -o server server.c handler.c ae_epoll.c logger.c -lpthread
 
 # Not a target:
 client.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-29 16:52:18.134297179
+#  Last modified 2022-07-30 11:55:07.172158302
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 ae_epoll.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-29 16:33:52.874331655
+#  Last modified 2022-07-30 12:32:40.102088026
 #  File has been updated.
 #  Successfully updated.
 
@@ -257,7 +257,7 @@ ae_epoll.c:
 # Not a target:
 server.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-29 16:46:40.104307723
+#  Last modified 2022-07-29 20:44:27.413862682
 #  File has been updated.
 #  Successfully updated.
 
@@ -269,21 +269,28 @@ clean:
 #  recipe to execute (from 'Makefile', line 13):
 	rm server cli
 
+# Not a target:
+logger.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-30 12:34:24.012084785
+#  File has been updated.
+#  Successfully updated.
+ 
+
 # files hash-table stats:
-# Load=12/1024=1%, Rehash=0, Collisions=0/34=0%
+# Load=13/1024=1%, Rehash=0, Collisions=0/36=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
- 
 
-# strcache buffers: 1 (0) / strings = 28 / storage = 236 B / avg = 8 B
-# current buf: size = 8162 B / used = 236 B / count = 28 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 31 / storage = 261 B / avg = 8 B
+# current buf: size = 8162 B / used = 261 B / count = 31 / avg = 8 B
 
-# strcache performance: lookups = 47 / hit rate = 40%
+# strcache performance: lookups = 51 / hit rate = 39%
 # hash-table stats:
-# Load=28/8192=0%, Rehash=0, Collisions=2/47=4%
-# Finished Make data base on Fri Jul 29 16:53:41 2022
+# Load=31/8192=0%, Rehash=0, Collisions=2/51=4%
+# Finished Make data base on Sat Jul 30 12:34:53 2022
 
  
