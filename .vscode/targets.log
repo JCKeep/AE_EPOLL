@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sat Jul 30 12:34:53 2022
+# Make data base, printed on Sat Jul 30 20:37:01 2022
 
 # Variables
 
@@ -51,7 +51,7 @@ XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-81c8a304-ce5f-40b4-9d4f-61de8bcd47ee.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-038c09c0-3e1c-41e1-981c-2408f6428824.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -65,7 +65,7 @@ PWD = /root/C/工训/project2/AE_EPOLL
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/6657_interop
+WSL_INTEROP = /run/WSL/97_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
@@ -144,10 +144,8 @@ LANG = C
 TERM = xterm-256color
 # environment
 WSL_DISTRO_NAME = Ubuntu
-# environment
-MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=68/1024=7%, Rehash=0, Collisions=4/96=4%
+# Load=67/1024=7%, Rehash=0, Collisions=4/95=4%
 
 # Pattern-specific Variable Values
 
@@ -209,7 +207,7 @@ client: client.c
 # Not a target:
 handler.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-30 11:52:15.332163662
+#  Last modified 2022-07-30 19:47:01.101275105
 #  File has been updated.
 #  Successfully updated.
 
@@ -228,7 +226,7 @@ Makefile:
 
 server: server.c handler.c ae_epoll.c logger.c
 #  Implicit rule search has not been done.
-#  Last modified 2022-07-30 12:34:43.512084177
+#  Last modified 2022-07-30 20:23:33.881206705
 #  File has been updated.
 #  Successfully updated.
 #  recipe to execute (from 'Makefile', line 4):
@@ -237,14 +235,14 @@ server: server.c handler.c ae_epoll.c logger.c
 # Not a target:
 client.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-30 11:55:07.172158302
+#  Last modified 2022-07-30 17:06:50.78157488
 #  File has been updated.
 #  Successfully updated.
 
 # Not a target:
 ae_epoll.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-30 12:32:40.102088026
+#  Last modified 2022-07-30 20:23:32.171206758
 #  File has been updated.
 #  Successfully updated.
 
@@ -272,12 +270,12 @@ clean:
 # Not a target:
 logger.c:
 #  Implicit rule search has been done.
-#  Last modified 2022-07-30 12:34:24.012084785
+#  Last modified 2022-07-30 14:10:04.181905732
 #  File has been updated.
 #  Successfully updated.
- 
 
 # files hash-table stats:
+ 
 # Load=13/1024=1%, Rehash=0, Collisions=0/36=0%
 # VPATH Search Paths
 
@@ -291,6 +289,6 @@ logger.c:
 # strcache performance: lookups = 51 / hit rate = 39%
 # hash-table stats:
 # Load=31/8192=0%, Rehash=0, Collisions=2/51=4%
-# Finished Make data base on Sat Jul 30 12:34:53 2022
+# Finished Make data base on Sat Jul 30 20:37:01 2022
 
  

@@ -133,10 +133,12 @@ ae_event_loop* aeCreateEventLoop()
         return NULL;
     }
 
+    event_loop->post_process = 0;
     event_loop->next_time_id = 0;
     event_loop->time_event_head = NULL;
     event_loop->epfd = epoll_create(1024);
     event_loop->fired = (int *)malloc(1024 * sizeof(int));
+    event_loop->post_event = (int *)malloc(1024 * sizeof(int));
     event_loop->fired_max = 0;
     event_loop->max_fd = 0;
     event_loop->size = 0;
@@ -145,6 +147,7 @@ ae_event_loop* aeCreateEventLoop()
     memset(event_loop->event, 0, 1024 * sizeof(struct epoll_event));
     memset(event_loop->events, 0, 1024 * sizeof(ae_file_event));
     memset(event_loop->fired, 0, 1024 * sizeof(int));
+    memset(event_loop->post_event, 0, 1024 * sizeof(int));
     return event_loop;
 }
 
@@ -250,6 +253,7 @@ int aeQuickDeleteTimeEvent(ae_event_loop *eventLoop, ae_time_event *time_event, 
 /* 删除并释放ae_event_loop */
 void aeFreeEventLoop(ae_event_loop *event_loop)
 {
+    free(event_loop->post_event);
     free(event_loop->event);
     free(event_loop->events);
     free(event_loop->fired);
@@ -267,6 +271,8 @@ void aeMain(ae_event_loop *event_loop)
         if (event_num > 0)
             aeProcessFileEvent(event_loop);
         aeProcessTimeEvent(event_loop);
+        if (event_loop->post_process)
+            aeProcessPostEvent(event_loop);
     }
 }
 
@@ -285,6 +291,32 @@ void aeProcessFileEvent(ae_event_loop *event_loop)
         e->mask = 0;
     }
     event_loop->fired_max = 0;
+}
+
+
+/* Post event为在文件事件中处理完读事件后并且本次Poll 
+ * 事件无READ_EVENT，急需迅速进行WRITE_EVENT而准备的
+ * 函数接口。
+ * 
+ * 约定Post event处理过程中不允许再次触发Post event。
+ * 且Post事件均为文件事件。
+ */
+void aeProcessPostEvent(ae_event_loop *event_loop)
+{
+#ifdef DEBUG
+    printf("post process\n");
+#endif
+    int max = event_loop->post_process;
+    for (int i = 0; i < max; i++) {
+        int fd = event_loop->post_event[i];
+        ae_file_event *e = &event_loop->events[fd];
+        if (e->mask & READ_EVENT)
+            e->readProc(event_loop, fd, e->rdata);
+        if (e->mask & WRITE_EVENT)
+            e->writeProc(event_loop, fd, e->wdata);
+        e->mask = 0;
+    }
+    event_loop->post_process = 0;
 }
 
 

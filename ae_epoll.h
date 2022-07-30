@@ -37,6 +37,7 @@ typedef struct ae_file_event {
 } ae_file_event;
 
 
+/* 时间事件UP */
 typedef struct ae_time_event {
     long long id; /* 时间事件唯一ID */
     long when_sec; /* 到达时间second */
@@ -54,10 +55,12 @@ typedef struct ae_event_loop {
     int size;   /* 已注册的事件大小 */
     int max_fd; /* 最大文件描述符 */
     int fired_max; /* 就绪队列大小 */
+    int post_process; /* 是否有后续待处理事件 */
     long long next_time_id; /* 时间事件下一个唯一ID */
     ae_file_event *events; /* 事件缓冲区 */
     ae_time_event *time_event_head; /* 时间事件链表头节点 */
     int *fired;  /* 就绪队列 */
+    int *post_event; /* 后就绪队列 */ 
     struct epoll_event *event; /* 事件状态缓冲区 */
 } ae_event_loop;
 
@@ -75,6 +78,7 @@ void* aeWaitConnection(void *arg);
 void aeFreeEventLoop(ae_event_loop *event_loop);
 void aeMain(ae_event_loop *event_loop);
 void aeProcessFileEvent(ae_event_loop *event_loop);
+void aeProcessPostEvent(ae_event_loop *event_loop);
 
 void aeGetTime(long *seconds, long *milliseconds);
 void aeAddMillisecondsToNow(long long milliseconds, long *sec, long *ms);

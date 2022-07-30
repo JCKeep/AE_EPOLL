@@ -20,7 +20,7 @@ void serialReadProc(ae_event_loop *eventLoop, int fd, void *data)
             printf("同步温度ADC: %02x\n", buf[TEMP_MARK + 1]);
 #endif
             sprintf(cmd, "%s %s %d > output", CMD_HEADER, CMD_TEMP, buf[TEMP_MARK + 1]);
-            system(cmd);
+            //system(cmd);
             cmd[0] = '\0';
         }
         if (buf[1] & LIGHT_MARK) {
@@ -28,7 +28,7 @@ void serialReadProc(ae_event_loop *eventLoop, int fd, void *data)
             printf("同步光照ADC: %02x\n", buf[LIGHT_MARK + 1]);
 #endif
             sprintf(cmd, "%s %s %d > output", CMD_HEADER, CMD_LIGHT, buf[LIGHT_MARK + 1]);
-            system(cmd);
+            //system(cmd);
             cmd[0] = '\0';
         }
         bzero(buf, SIZE);
@@ -40,6 +40,9 @@ void serialReadProc(ae_event_loop *eventLoop, int fd, void *data)
 void serialWriteProc(ae_event_loop *eventLoop, int fd, void *data)
 {
     write(fd, data, SIZE);
+#ifdef DEBUG
+    printf("serial write\n");
+#endif
 }
 
 
@@ -55,6 +58,12 @@ void cliReadProc(ae_event_loop *eventLoop, int connectfd, void *data)
         return;
     }
     int type = VOID2INT(buf);
+#ifdef DEBUG
+    for (int i = 0; i < 0x10; i++) {
+        printf("%02x ", (u_char)buf[i]);
+    }
+    printf("\n");
+#endif
     if (type & ADD_SERIAL_CLI) {
         cliport *cli = (cliport *)(buf + 4);
         int fd = openSerial(cli->filename, B9600);
@@ -73,13 +82,10 @@ void cliReadProc(ae_event_loop *eventLoop, int connectfd, void *data)
 #endif
         write(connectfd, &fd, sizeof(int));
     }
-    else if (type & ADD_JAVA_CLI){
-        printf("This is a java client\n");
-        printf("Not a serial client\n");
-    }
     else if (type & CMD_SERIAL_CLI) {
         int tmpfd = VOID2INT(buf + 4);
         ae_file_event *e = &eventLoop->events[tmpfd];
+        eventLoop->post_event[eventLoop->post_process++] = tmpfd;
         e->mask |= WRITE_EVENT;
         for (int i = 0; i < SIZE; i++)
             VOID2UCHAR(e->wdata + i) = buf[8 + i];

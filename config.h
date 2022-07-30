@@ -62,17 +62,19 @@
 
 #define ADD_SERIAL_CLI 0x1
 #define CMD_SERIAL_CLI 0x100
-#define CMD_BIT 0x2
+#define CMD_TEMP_POS 0x2
+#define CMD_TEMP_DATA 0x3
 #define ADD_JAVA_CLI 0x2
 #define CMD_JAVA_CLI 0x200
 
 #define OP_ADD 0x1
 #define OP_SUB 0x2
+#define OP_SET 0x4
 
 
 
-#define VOID2UCHAR(p) (*((u_char *)p))
-#define VOID2CHAR(p) (*((char *)p))
-#define VOID2INT(p) (*((int *)p))
+#define VOID2UCHAR(p) (*((u_char *)(p)))
+#define VOID2CHAR(p) (*((char *)(p)))
+#define VOID2INT(p) (*((int *)(p)))
 
 #endif

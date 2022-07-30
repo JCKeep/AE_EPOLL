@@ -64,7 +64,7 @@ WHILE2:
             VOID2INT(sbuf + 4) = cli->fd;
             sbuf[8] = HEADER;
             sbuf[9] = TAILER;
-            sbuf[8 + CMD_BIT] = OP_ADD;
+            sbuf[8 + CMD_TEMP_POS] = OP_ADD;
             write(socketfd, sbuf, SOCKET_SIZE);
         }
         else if (!strcmp(op, "DOWN")) {
@@ -72,7 +72,18 @@ WHILE2:
             VOID2INT(sbuf + 4) = cli->fd;
             sbuf[8] = HEADER;
             sbuf[9] = TAILER;
-            sbuf[8 + CMD_BIT] = OP_SUB;
+            sbuf[8 + CMD_TEMP_POS] = OP_SUB;
+            write(socketfd, sbuf, SOCKET_SIZE);
+        }
+        else if (!strcmp(op, "SET")) {
+            int tmp;
+            scanf("%d", &tmp);
+            VOID2INT(sbuf) = CMD_SERIAL_CLI;
+            VOID2INT(sbuf + 4) = cli->fd;
+            sbuf[8] = HEADER;
+            sbuf[9] = TAILER;
+            sbuf[8 + CMD_TEMP_POS] = OP_SET;
+            sbuf[8 + CMD_TEMP_DATA] = tmp;
             write(socketfd, sbuf, SOCKET_SIZE);
         }
         else if (!strcmp(op, "exit")) 
