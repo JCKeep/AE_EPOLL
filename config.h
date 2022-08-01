@@ -49,13 +49,15 @@
 
 #define READ_EVENT 0x1
 #define WRITE_EVENT 0x2
+#define CLIENT_EVENT 0x8
+#define SERIAL_EVENT 0x4
 #define MIN_BLOCK_TIME 50
 
 
 /*--------- Server-- -------*/
 
 #define SERVER_PORT 8087
-#define SOCKET_SIZE (sizeof(cliport) + 4)
+#define SOCKET_SIZE (sizeof(ae_serial) + 4)
 
 
 /*--------- Client ----------*/
@@ -66,6 +68,7 @@
 #define CMD_TEMP_DATA 0x3
 #define ADD_JAVA_CLI 0x2
 #define CMD_JAVA_CLI 0x200
+#define SERIAL_INFO 0x400
 
 #define OP_ADD 0x1
 #define OP_SUB 0x2
@@ -76,5 +79,8 @@
 #define VOID2UCHAR(p) (*((u_char *)(p)))
 #define VOID2CHAR(p) (*((char *)(p)))
 #define VOID2INT(p) (*((int *)(p)))
+#define VOID2UINT(p) (*((uint32_t *)(p)))
+#define VOID2LONG(p) (*((long *)(p)))
+#define VOID2ULONG(p) (*((u_long *)(p)))
 
 #endif

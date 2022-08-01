@@ -1,6 +1,7 @@
-make all --dry-run --always-make --keep-going --print-directory
+make all --dry-run --keep-going --print-directory
 make: Entering directory '/root/C/工训/project2/AE_EPOLL'
-gcc -g -Wall -Wunused-label -o server server.c handler.c ae_epoll.c logger.c -lpthread
-gcc -g -Wall -Wunused-label -o cli client.c  
+gcc -g -Wall -Wunused-label -o cli client.c main_cli.c  
 make: Leaving directory '/root/C/工训/project2/AE_EPOLL'
  
+make: *** No rule to make target 'main_server.c', needed by 'server'.
+

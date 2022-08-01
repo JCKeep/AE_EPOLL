@@ -1,7 +1,10 @@
 #include "client.h"
+#include "server.h"
 #include "handler.h"
 #include "ae_epoll.h"
 
+
+extern ae_server *server;
 extern pthread_mutex_t lock;
 
 /*--------------------------- IO多路复用API实现 -----------------------------*/
@@ -39,13 +42,14 @@ int openSerial(char *filename, unsigned long bps)
 /* 添加文件事件 */
 int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc, 
         fileEventHandler *writeProc, void *rdata, void *wdata,
-        fileEventFinalizeHandler *finalizeProc, int fd, int mask)
+        fileEventFinalizeHandler *finalizeProc, int fd, int mask, int type)
 {
     pthread_mutex_lock(&lock);
     int mod = (event_loop->events[fd].readProc != NULL || event_loop->events[fd].writeProc != NULL) ? EPOLL_CTL_MOD : EPOLL_CTL_ADD;
     ae_file_event *e = &event_loop->events[fd];
     e->fd = fd;
     e->mask = 0;
+    e->type = type;
     e->rdata = rdata;
     e->wdata = wdata;
     e->readProc = readProc;
@@ -69,6 +73,9 @@ int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc,
     event_loop->size++;
     event_loop->max_fd = (event_loop->max_fd > fd) ? event_loop->epfd : fd;
     logger_info("Add event ok", fd);
+#ifdef DEBUG
+    aeServer2String(server);
+#endif
     pthread_mutex_unlock(&lock);
     return 0;
 }
@@ -91,8 +98,12 @@ int aeDeleteFileEvent(ae_event_loop *event_loop, int fd)
         e->finalizeProc(event_loop, e->rdata);
         e->finalizeProc(event_loop, e->wdata);
     }
+    if (e->type & CLIENT_EVENT)
+        aeServerPopClient(server, fd);
+    if (e->type & SERIAL_EVENT)
+        aeServerPopSerial(server, fd);
     memset(e, 0, sizeof(ae_file_event));
-    if (epoll_ctl(event_loop->epfd, EPOLL_CTL_DEL, fd, &event) < 0) {
+    if (epoll_ctl(event_loop->epfd, EPOLL_CTL_DEL, fd, NULL) < 0) {
         perror("epoll_ctl del");
         pthread_mutex_unlock(&lock);
         return -1;
@@ -100,6 +111,9 @@ int aeDeleteFileEvent(ae_event_loop *event_loop, int fd)
     event_loop->size--;
     close(fd);
     logger_info("Delete event ok", fd);
+#ifdef DEBUG
+    aeServer2String(server);
+#endif
     pthread_mutex_unlock(&lock);
     return 0;
 }
@@ -268,9 +282,9 @@ void aeMain(ae_event_loop *event_loop)
     int event_num;
     while (TRUE) {
         event_num = aePollFileEvent(event_loop);
+        aeProcessTimeEvent(event_loop);
         if (event_num > 0)
             aeProcessFileEvent(event_loop);
-        aeProcessTimeEvent(event_loop);
         if (event_loop->post_process)
             aeProcessPostEvent(event_loop);
     }
@@ -355,6 +369,7 @@ void aeProcessTimeEvent(ae_event_loop *event_loop)
     }
 }
 
+
 /* 等待创建新的连接 */
 void* aeWaitConnection(void *arg)
 {
@@ -380,12 +395,13 @@ void* aeWaitConnection(void *arg)
         int connectfd = accept(listenfd, (struct sockaddr *)&cli_addr, &cliaddr_len);
 
         logger_info("Connecting to port", ntohl(cli_addr.sin_port));
-
+        ae_client *client = aeCreateClient(connectfd);
+        aeServerPushClient(server, client);
         char *cli_rdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
         char *cli_wdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
         memset(cli_rdata, 0, SOCKET_SIZE);
         memset(cli_wdata, 0, SOCKET_SIZE);
-        aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_rdata, cli_wdata, stringFinalize, connectfd, READ_EVENT);
+        aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_rdata, cli_wdata, stringFinalize, connectfd, READ_EVENT, CLIENT_EVENT);
     }
 }
 

@@ -6,6 +6,7 @@
 #include "config.h"
 #include "logger.h"
 
+
 struct ae_file_event;
 struct ae_time_event;
 struct ae_event_loop;
@@ -29,6 +30,7 @@ typedef void timeEventFinalizeHandler(struct ae_event_loop *eventLoop, void *dat
 typedef struct ae_file_event {
     int fd; /* 文件事件描述符 */
     int mask; /* 事件掩码 */
+    int type; /*  */
     void *rdata;   /* 数据包 */
     void *wdata;
     fileEventHandler *readProc;     /* 读事件处理器 */
@@ -70,7 +72,7 @@ typedef struct ae_event_loop {
 int openSerial(char *filename, unsigned long bps);
 int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc, 
         fileEventHandler *writeProc, void *rdata, void *wdata,
-        fileEventFinalizeHandler *finalizeProc, int fd, int mask);
+        fileEventFinalizeHandler *finalizeProc, int fd, int mask, int type);
 int aeDeleteFileEvent(ae_event_loop *event_loop, int fd);
 int aePollFileEvent(ae_event_loop *event_loop);
 ae_event_loop* aeCreateEventLoop();
