@@ -22,7 +22,7 @@ void serialReadProc(ae_event_loop *eventLoop, int fd, void *data)
             printf("同步温度ADC: %02x\n", buf[TEMP_MARK + 1]);
 #endif
             sprintf(cmd, "%s %s %d > output", CMD_HEADER, CMD_TEMP, buf[TEMP_MARK + 1]);
-            //system(cmd);
+            system(cmd);
             cmd[0] = '\0';
         }
         if (buf[1] & LIGHT_MARK) {
@@ -30,7 +30,7 @@ void serialReadProc(ae_event_loop *eventLoop, int fd, void *data)
             printf("同步光照ADC: %02x\n", buf[LIGHT_MARK + 1]);
 #endif
             sprintf(cmd, "%s %s %d > output", CMD_HEADER, CMD_LIGHT, buf[LIGHT_MARK + 1]);
-            //system(cmd);
+            system(cmd);
             cmd[0] = '\0';
         }
         bzero(buf, SIZE);
@@ -42,9 +42,23 @@ void serialReadProc(ae_event_loop *eventLoop, int fd, void *data)
 void serialWriteProc(ae_event_loop *eventLoop, int fd, void *data)
 {
     write(fd, data, SIZE);
-#ifdef DEBUG
-    printf("ae_serial write\n");
-#endif
+}
+
+
+void serverReadProc(ae_event_loop *eventLoop, int fd, void *data)
+{
+    struct sockaddr_in *cli_addr = data;
+    socklen_t cli_len = sizeof(cli_addr);
+    int connectfd = accept(fd, (struct sockaddr*)cli_addr, &cli_len);
+
+    logger_info("Connecting to port", ntohl(cli_addr->sin_port));
+    ae_client *client = aeCreateClient(connectfd);
+    aeServerPushClient(server, client);
+    char *cli_rdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
+    char *cli_wdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
+    memset(cli_rdata, 0, SOCKET_SIZE);
+    memset(cli_wdata, 0, SOCKET_SIZE);
+    aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_rdata, cli_wdata, stringFinalize, connectfd, READ_EVENT, CLIENT_EVENT);
 }
 
 

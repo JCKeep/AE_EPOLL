@@ -6,6 +6,7 @@
 
 
 typedef struct ae_server {
+    int fd;
     int serial_size;
     int client_size;
     ae_serial *serial_head;

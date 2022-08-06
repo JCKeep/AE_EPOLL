@@ -9,6 +9,7 @@
 
 void serialReadProc(ae_event_loop *eventLoop, int fd, void *data);
 void serialWriteProc(ae_event_loop *eventLoop, int fd, void *data);
+void serverReadProc(ae_event_loop *eventLoop, int fd, void *data);
 void cliReadProc(ae_event_loop *eventLoop, int connectfd, void *data);
 void cliWriteProc(ae_event_loop *eventLoop, int connectfd, void *data);
 void stringFinalize(struct ae_event_loop *eventLoop, void *data);

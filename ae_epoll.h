@@ -76,7 +76,7 @@ int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc,
 int aeDeleteFileEvent(ae_event_loop *event_loop, int fd);
 int aePollFileEvent(ae_event_loop *event_loop);
 ae_event_loop* aeCreateEventLoop();
-void* aeWaitConnection(void *arg);
+// void* aeWaitConnection(void *arg);
 void aeFreeEventLoop(ae_event_loop *event_loop);
 void aeMain(ae_event_loop *event_loop);
 void aeProcessFileEvent(ae_event_loop *event_loop);

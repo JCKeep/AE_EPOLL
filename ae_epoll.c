@@ -5,7 +5,6 @@
 
 
 extern ae_server *server;
-extern pthread_mutex_t lock;
 
 /*--------------------------- IO多路复用API实现 -----------------------------*/
 
@@ -44,7 +43,6 @@ int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc,
         fileEventHandler *writeProc, void *rdata, void *wdata,
         fileEventFinalizeHandler *finalizeProc, int fd, int mask, int type)
 {
-    pthread_mutex_lock(&lock);
     int mod = (event_loop->events[fd].readProc != NULL || event_loop->events[fd].writeProc != NULL) ? EPOLL_CTL_MOD : EPOLL_CTL_ADD;
     ae_file_event *e = &event_loop->events[fd];
     e->fd = fd;
@@ -67,16 +65,11 @@ int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc,
     }
     if (epoll_ctl(event_loop->epfd, mod, fd, &event) < 0) {
         perror("epoll_ctl add");
-        pthread_mutex_unlock(&lock);
         return -1;
     }
     event_loop->size++;
     event_loop->max_fd = (event_loop->max_fd > fd) ? event_loop->epfd : fd;
     logger_info("Add event ok", fd);
-#ifdef DEBUG
-    aeServer2String(server);
-#endif
-    pthread_mutex_unlock(&lock);
     return 0;
 }
 
@@ -84,7 +77,6 @@ int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc,
 /* 删除指定文件事件 */
 int aeDeleteFileEvent(ae_event_loop *event_loop, int fd)
 {
-    pthread_mutex_lock(&lock);
     ae_file_event *e = &event_loop->events[fd];
     struct epoll_event event;
     event.data.u64 = 0;
@@ -105,16 +97,11 @@ int aeDeleteFileEvent(ae_event_loop *event_loop, int fd)
     memset(e, 0, sizeof(ae_file_event));
     if (epoll_ctl(event_loop->epfd, EPOLL_CTL_DEL, fd, NULL) < 0) {
         perror("epoll_ctl del");
-        pthread_mutex_unlock(&lock);
         return -1;
     }
     event_loop->size--;
     close(fd);
     logger_info("Delete event ok", fd);
-#ifdef DEBUG
-    aeServer2String(server);
-#endif
-    pthread_mutex_unlock(&lock);
     return 0;
 }
 
@@ -317,9 +304,6 @@ void aeProcessFileEvent(ae_event_loop *event_loop)
  */
 void aeProcessPostEvent(ae_event_loop *event_loop)
 {
-#ifdef DEBUG
-    printf("post process\n");
-#endif
     int max = event_loop->post_process;
     for (int i = 0; i < max; i++) {
         int fd = event_loop->post_event[i];
@@ -371,37 +355,37 @@ void aeProcessTimeEvent(ae_event_loop *event_loop)
 
 
 /* 等待创建新的连接 */
-void* aeWaitConnection(void *arg)
-{
-    ae_event_loop *eventLoop = (ae_event_loop *)arg;
-    struct sockaddr_in server_addr, cli_addr;
-    socklen_t cliaddr_len;
-    int size = SOCKET_SIZE;
-    char buf[size];
-    memset(buf, 0, size);
+// void* aeWaitConnection(void *arg)
+// {
+//     ae_event_loop *eventLoop = (ae_event_loop *)arg;
+//     struct sockaddr_in server_addr, cli_addr;
+//     socklen_t cliaddr_len;
+//     int size = SOCKET_SIZE;
+//     char buf[size];
+//     memset(buf, 0, size);
 
-    int listenfd = socket(AF_INET, SOCK_STREAM, 0);
-    memset(&server_addr, 0, sizeof(server_addr));
-    server_addr.sin_family = AF_INET;
-    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-    server_addr.sin_port = htons(SERVER_PORT);
+//     int listenfd = socket(AF_INET, SOCK_STREAM, 0);
+//     memset(&server_addr, 0, sizeof(server_addr));
+//     server_addr.sin_family = AF_INET;
+//     server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+//     server_addr.sin_port = htons(SERVER_PORT);
 
-    bind(listenfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
-    listen(listenfd, 16);
-    printf("\033[32mWelcom to JCKEEP HOME\n\033[0m---------------------\033[32m\nWaiting connection...\033[0m\n");
+//     bind(listenfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+//     listen(listenfd, 16);
+//     printf("\033[32mWelcom to JCKEEP HOME\n\033[0m---------------------\033[32m\nWaiting connection...\033[0m\n");
 
-    while (TRUE) {
-        cliaddr_len = sizeof(cli_addr);
-        int connectfd = accept(listenfd, (struct sockaddr *)&cli_addr, &cliaddr_len);
+//     while (TRUE) {
+//         cliaddr_len = sizeof(cli_addr);
+//         int connectfd = accept(listenfd, (struct sockaddr *)&cli_addr, &cliaddr_len);
 
-        logger_info("Connecting to port", ntohl(cli_addr.sin_port));
-        ae_client *client = aeCreateClient(connectfd);
-        aeServerPushClient(server, client);
-        char *cli_rdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
-        char *cli_wdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
-        memset(cli_rdata, 0, SOCKET_SIZE);
-        memset(cli_wdata, 0, SOCKET_SIZE);
-        aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_rdata, cli_wdata, stringFinalize, connectfd, READ_EVENT, CLIENT_EVENT);
-    }
-}
+//         logger_info("Connecting to port", ntohl(cli_addr.sin_port));
+//         ae_client *client = aeCreateClient(connectfd);
+//         aeServerPushClient(server, client);
+//         char *cli_rdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
+//         char *cli_wdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
+//         memset(cli_rdata, 0, SOCKET_SIZE);
+//         memset(cli_wdata, 0, SOCKET_SIZE);
+//         aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_rdata, cli_wdata, stringFinalize, connectfd, READ_EVENT, CLIENT_EVENT);
+//     }
+// }
 

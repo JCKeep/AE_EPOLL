@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'main_server.c', needed by 'server'.  Stop.
-
 # GNU Make 4.2.1
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2016 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'main_server.c', needed by 'server'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Jul 31 17:25:57 2022
+# Make data base, printed on Sat Aug  6 15:01:42 2022
 
 # Variables
 
@@ -47,13 +45,13 @@ VSCODE_CWD = /mnt/c/Users/jckeep/AppData/Local/Programs/Microsoft VS Code
 # default
 MAKE_HOST := x86_64-pc-linux-gnu
 # environment
-PATH = /root/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/remote-cli:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/MinGW/bin:/mnt/c/Program Files/Vim/vim82:/mnt/c/Program Files/Git/cmd:/mnt/d/javaJDK/bin:/mnt/c/Program Files/usbipd-win/:/mnt/d/mysql-8.0.24-winx64/bin:/mnt/d/apache-maven-3.8.5-bin/apache-maven-3.8.5/bin:/mnt/d/Redis-x64-5.0.14.1:/mnt/d/SETUP/nginx-1.22.0:/mnt/c/Program Files (x86)/nodejs/:/mnt/d/Program Files/MongoDB/Server/3.2/bin:/mnt/d/Program Files/erl9.2/bin:/mnt/d/SETIUP/RabbitMQ Server/rabbitmq_server-3.7.4/sbin:/mnt/d/SETUP/kafka_2.12-2.8.0/bin/windows:/mnt/d/SETUP/apache-zookeeper-3.7.1-bin/bin:/mnt/c/Users/jckeep/5.4 2016q3/bin:/mnt/c/Users/jckeep/.cargo/bin:/mnt/c/Users/jckeep/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/jckeep/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/jckeep/AppData/Local/Pandoc/:/mnt/d/modeltech64_10.4/win64:/mnt/d/JetBrains/IntelliJ IDEA Community Edition 2022.1.1/bin:/mnt/c/Users/jckeep/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/jckeep/AppData/Roaming/npm:/snap/bin:/root/gcc-arm-none-eabi-5_4-2016q3-20160926-linux/gcc-arm-none-eabi-5_4-2016q3/bin
+PATH = /root/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/bin/remote-cli:/root/.cargo/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/usr/lib/wsl/lib:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/MinGW/bin:/mnt/c/Program Files/Vim/vim82:/mnt/c/Program Files/Git/cmd:/mnt/d/javaJDK/bin:/mnt/c/Program Files/usbipd-win/:/mnt/d/mysql-8.0.24-winx64/bin:/mnt/d/apache-maven-3.8.5-bin/apache-maven-3.8.5/bin:/mnt/d/Redis-x64-5.0.14.1:/mnt/d/SETUP/nginx-1.22.0:/mnt/c/Program Files (x86)/nodejs/:/mnt/d/Program Files/MongoDB/Server/3.2/bin:/mnt/d/Program Files/erl9.2/bin:/mnt/d/SETIUP/RabbitMQ Server/rabbitmq_server-3.7.4/sbin:/mnt/d/SETUP/kafka_2.12-2.8.0/bin/windows:/mnt/d/SETUP/apache-zookeeper-3.7.1-bin/bin:/mnt/d/Program Files/Go/bin:/mnt/c/Users/jckeep/5.4 2016q3/bin:/mnt/c/Users/jckeep/.cargo/bin:/mnt/c/Users/jckeep/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/jckeep/AppData/Local/Programs/Microsoft VS Code/bin:/mnt/c/Users/jckeep/AppData/Local/Pandoc/:/mnt/d/modeltech64_10.4/win64:/mnt/d/JetBrains/IntelliJ IDEA Community Edition 2022.1.1/bin:/mnt/c/Users/jckeep/AppData/Local/GitHubDesktop/bin:/mnt/c/Users/jckeep/AppData/Roaming/npm:/mnt/c/Users/jckeep/go/bin:/snap/bin:/root/gcc-arm-none-eabi-5_4-2016q3-20160926-linux/gcc-arm-none-eabi-5_4-2016q3/bin
 # environment
 XDG_RUNTIME_DIR = /mnt/wslg/runtime-dir
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # environment
-VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-038c09c0-3e1c-41e1-981c-2408f6428824.sock
+VSCODE_IPC_HOOK_CLI = /mnt/wslg/runtime-dir/vscode-ipc-adfc9c53-e698-4ea9-a083-61af95d65a93.sock
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell archives jobserver output-sync check-symlink load
 # environment
@@ -67,7 +65,7 @@ PWD = /root/C/工训/project2/AE_EPOLL
 # default
 .LOADED := 
 # environment
-WSL_INTEROP = /run/WSL/97_interop
+WSL_INTEROP = /run/WSL/10796_interop
 # environment
 PULSE_SERVER = /mnt/wslg/PulseServer
 # environment
@@ -146,8 +144,10 @@ LANG = C
 TERM = xterm-256color
 # environment
 WSL_DISTRO_NAME = Ubuntu
+# environment
+MOTD_SHOWN = update-motd
 # variable set hash-table stats:
-# Load=67/1024=7%, Rehash=0, Collisions=4/92=4%
+# Load=68/1024=7%, Rehash=0, Collisions=4/96=4%
 
 # Pattern-specific Variable Values
 
@@ -169,18 +169,42 @@ all: server client
 #  Command line target.
 #  Implicit rule search has been done.
 #  File does not exist.
-#  File has not been updated.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/3=0%
 
 # Not a target:
 main_server.c:
 #  Implicit rule search has been done.
-#  File does not exist.
-#  File has not been updated.
+#  Last modified 2022-07-31 17:23:28.690496311
+#  File has been updated.
+#  Successfully updated.
 
 client: client.c main_cli.c
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := client
+# automatic
+# % := 
+# automatic
+# * := 
+# automatic
+# + := client.c main_cli.c
+# automatic
+# | := 
+# automatic
+# < := client.c
+# automatic
+# ^ := client.c main_cli.c
+# automatic
+# ? := client.c main_cli.c
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=1/11=9%
 #  recipe to execute (from 'Makefile', line 7):
 	gcc -g -Wall -Wunused-label -o cli client.c main_cli.c  
 
@@ -191,6 +215,13 @@ client: client.c main_cli.c
 
 # Not a target:
 handler.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-07-31 18:25:38.460379968
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
+.SUFFIXES:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -204,22 +235,25 @@ Makefile:
 
 server: main_server.c server.c handler.c ae_epoll.c logger.c
 #  Implicit rule search has not been done.
-#  Last modified 2022-07-31 17:25:42.330492142
-#  File has not been updated.
+#  Last modified 2022-07-31 18:25:42.400379845
+#  File has been updated.
+#  Successfully updated.
 #  recipe to execute (from 'Makefile', line 4):
 	gcc -g -Wall -Wunused-label -o server main_server.c server.c handler.c ae_epoll.c logger.c client.c -lpthread
 
 # Not a target:
 client.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-31 17:32:23.260479636
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 ae_epoll.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-31 18:21:25.100387871
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 .DEFAULT:
@@ -229,9 +263,10 @@ ae_epoll.c:
 
 # Not a target:
 server.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-31 18:15:11.480399525
+#  File has been updated.
+#  Successfully updated.
 
 clean:
 #  Phony target (prerequisite of .PHONY).
@@ -240,33 +275,36 @@ clean:
 #  File has not been updated.
 #  recipe to execute (from 'Makefile', line 13):
 	rm server cli
+ 
 
 # Not a target:
 logger.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-30 14:10:04.181905732
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 main_cli.c:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-07-31 18:09:19.790410496
+#  File has been updated.
+#  Successfully updated.
 
 # files hash-table stats:
-# Load=15/1024=1%, Rehash=0, Collisions=0/39=0%
+# Load=15/1024=1%, Rehash=0, Collisions=0/40=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 34 / storage = 290 B / avg = 8 B
-# current buf: size = 8162 B / used = 290 B / count = 34 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 33 / storage = 283 B / avg = 8 B
+# current buf: size = 8162 B / used = 283 B / count = 33 / avg = 8 B
 
-# strcache performance: lookups = 54 / hit rate = 37%
+# strcache performance: lookups = 55 / hit rate = 40%
 # hash-table stats:
-# Load=34/8192=0%, Rehash=0, Collisions=2/54=4%
-# Finished Make data base on Sun Jul 31 17:25:57 2022
+# Load=33/8192=0%, Rehash=0, Collisions=2/55=4%
+# Finished Make data base on Sat Aug  6 15:01:42 2022
 
  

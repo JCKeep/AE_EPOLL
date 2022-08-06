@@ -1,4 +1,5 @@
 #include "server.h"
+#include "handler.h"
 
 void *aeCreateServer()
 {
@@ -8,6 +9,21 @@ void *aeCreateServer()
     s->eventLoop = aeCreateEventLoop();
     s->serial_head = NULL;
     s->client_head = NULL;
+
+    struct sockaddr_in server_addr;
+    s->fd = socket(AF_INET, SOCK_STREAM, 0);
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    server_addr.sin_port = htons(SERVER_PORT);
+    bind(s->fd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    listen(s->fd, 16);
+    printf("\033[32mWelcom to JCKEEP HOME\n\033[0m---------------------\033[32m\nWaiting connection...\033[0m\n");
+
+    char *buf = (char *)malloc(sizeof(struct sockaddr_in));
+    memset(buf, 0, sizeof(struct sockaddr_in));
+    aeAddFileEvent(s->eventLoop, serverReadProc, NULL, buf, NULL, stringFinalize, s->fd, READ_EVENT, 0);
+
     return s;
 }
 
