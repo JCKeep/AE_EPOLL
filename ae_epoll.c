@@ -38,7 +38,10 @@ int openSerial(char *filename, unsigned long bps)
 }
 
 
-/* 添加文件事件 */
+/* 添加文件事件
+ *
+ * 
+ */
 int aeAddFileEvent(ae_event_loop *event_loop, fileEventHandler *readProc, 
         fileEventHandler *writeProc, void *rdata, void *wdata,
         fileEventFinalizeHandler *finalizeProc, int fd, int mask, int type)
