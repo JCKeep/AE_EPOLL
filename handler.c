@@ -19,7 +19,7 @@ void serialReadProc(ae_event_loop *eventLoop, int fd, void *data)
 #endif
         if (buf[1] & TEMP_MARK) {
 #ifdef DEBUG
-            printf("同步温度ADC: %02x\n", buf[TEMP_MARK + 1]);
+            printf("同步温度: %02d\n", buf[TEMP_MARK + 1]);
 #endif
             sprintf(cmd, "%s %s %d > output", CMD_HEADER, CMD_TEMP, buf[TEMP_MARK + 1]);
             system(cmd);
@@ -27,7 +27,7 @@ void serialReadProc(ae_event_loop *eventLoop, int fd, void *data)
         }
         if (buf[1] & LIGHT_MARK) {
 #ifdef DEBUG
-            printf("同步光照ADC: %02x\n", buf[LIGHT_MARK + 1]);
+            printf("同步光照: %02d\n", buf[LIGHT_MARK + 1]);
 #endif
             sprintf(cmd, "%s %s %d > output", CMD_HEADER, CMD_LIGHT, buf[LIGHT_MARK + 1]);
             system(cmd);

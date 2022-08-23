@@ -39,7 +39,7 @@ typedef struct ae_file_event {
 } ae_file_event;
 
 
-/* 时间事件UP */
+/* 时间事件 */
 typedef struct ae_time_event {
     long long id; /* 时间事件唯一ID */
     long when_sec; /* 到达时间second */

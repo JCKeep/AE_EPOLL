@@ -358,37 +358,38 @@ void aeProcessTimeEvent(ae_event_loop *event_loop)
 
 
 /* 等待创建新的连接 */
-// void* aeWaitConnection(void *arg)
-// {
-//     ae_event_loop *eventLoop = (ae_event_loop *)arg;
-//     struct sockaddr_in server_addr, cli_addr;
-//     socklen_t cliaddr_len;
-//     int size = SOCKET_SIZE;
-//     char buf[size];
-//     memset(buf, 0, size);
+/*
+void* aeWaitConnection(void *arg)
+{
+    ae_event_loop *eventLoop = (ae_event_loop *)arg;
+    struct sockaddr_in server_addr, cli_addr;
+    socklen_t cliaddr_len;
+    int size = SOCKET_SIZE;
+    char buf[size];
+    memset(buf, 0, size);
 
-//     int listenfd = socket(AF_INET, SOCK_STREAM, 0);
-//     memset(&server_addr, 0, sizeof(server_addr));
-//     server_addr.sin_family = AF_INET;
-//     server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
-//     server_addr.sin_port = htons(SERVER_PORT);
+    int listenfd = socket(AF_INET, SOCK_STREAM, 0);
+    memset(&server_addr, 0, sizeof(server_addr));
+    server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
+    server_addr.sin_port = htons(SERVER_PORT);
 
-//     bind(listenfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
-//     listen(listenfd, 16);
-//     printf("\033[32mWelcom to JCKEEP HOME\n\033[0m---------------------\033[32m\nWaiting connection...\033[0m\n");
+    bind(listenfd, (struct sockaddr *)&server_addr, sizeof(server_addr));
+    listen(listenfd, 16);
+    printf("\033[32mWelcom to JCKEEP HOME\n\033[0m---------------------\033[32m\nWaiting connection...\033[0m\n");
 
-//     while (TRUE) {
-//         cliaddr_len = sizeof(cli_addr);
-//         int connectfd = accept(listenfd, (struct sockaddr *)&cli_addr, &cliaddr_len);
+    while (TRUE) {
+        cliaddr_len = sizeof(cli_addr);
+        int connectfd = accept(listenfd, (struct sockaddr *)&cli_addr, &cliaddr_len);
 
-//         logger_info("Connecting to port", ntohl(cli_addr.sin_port));
-//         ae_client *client = aeCreateClient(connectfd);
-//         aeServerPushClient(server, client);
-//         char *cli_rdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
-//         char *cli_wdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
-//         memset(cli_rdata, 0, SOCKET_SIZE);
-//         memset(cli_wdata, 0, SOCKET_SIZE);
-//         aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_rdata, cli_wdata, stringFinalize, connectfd, READ_EVENT, CLIENT_EVENT);
-//     }
-// }
-
+        logger_info("Connecting to port", ntohl(cli_addr.sin_port));
+        ae_client *client = aeCreateClient(connectfd);
+        aeServerPushClient(server, client);
+        char *cli_rdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
+        char *cli_wdata = (char *)malloc(SOCKET_SIZE * sizeof(char));
+        memset(cli_rdata, 0, SOCKET_SIZE);
+        memset(cli_wdata, 0, SOCKET_SIZE);
+        aeAddFileEvent(eventLoop, cliReadProc, cliWriteProc, cli_rdata, cli_wdata, stringFinalize, connectfd, READ_EVENT, CLIENT_EVENT);
+    }
+}
+*/
