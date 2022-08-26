@@ -7,9 +7,7 @@ IO多路复用程序, 基于`linux epoll`实现，IO多路复用能显著提高�
 ![IO多路复用机制](./ph/IO.png)
 
 
-附:
+## 小学期实训大作业
 
-[Redis学习笔记](./redis.md)
-
-[Redis源码(基础)](./Redis%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%AE%9E%E7%8E%B0.md)
+将多个单片机连接上IO多路复用程序，做个家庭管理系统，监控温度、光照、家电管理等。
 
